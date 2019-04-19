@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import classNames from "classnames";
-// import { Link } from "react-router-dom";
 import checkDate from "../../utils/checkDate";
 //like post, flat post, add comment, actions(report innappropritate, unfoolow, go to post, cancel)
 
@@ -37,10 +35,7 @@ export class Post extends Component {
           <div>User: {post.user}</div>
           <div className="float-right">Actions</div>
         </div>
-        <img
-          src={`http://localhost/uploads/images/${post.image}`}
-          alt={post.image}
-        />
+        <img src={post.image} alt={post.image} />
         {/* <div className="row">Image: {`http://localhost/${post.image}`}</div> */}
         <div className="row">
           {" "}
