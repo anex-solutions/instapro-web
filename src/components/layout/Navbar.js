@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-// import { logoutUser } from "../../actions/AuthActions";
+import { logoutUser } from "../../actions/AuthActions";
 
 import SearchInputGroup from "../common/SearchInputGroup";
 
@@ -15,9 +15,15 @@ export class Navbar extends Component {
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
+    this.onLogout = this.onLogout.bind(this);
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+  }
+
+  onLogout(e) {
+    e.preventDefault();
+    this.props.logoutUser();
   }
 
   render() {
@@ -67,9 +73,10 @@ export class Navbar extends Component {
                 </span>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/profile">
+                <a href="/" className="nav-link" onClick={this.onLogout}>
                   <i className="far fa-user fa-lg" />
-                </Link>
+                </a>
+                {/* <Link className="nav-link" to="/profile" /> */}
               </li>
             </ul>
           </div>
@@ -80,12 +87,13 @@ export class Navbar extends Component {
 }
 
 Navbar.propTypes = {
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({ errors: state.errors });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { logoutUser };
 
 export default connect(
   mapStateToProps,

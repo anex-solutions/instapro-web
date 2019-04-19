@@ -32,7 +32,7 @@ if (localStorage.token) {
     store.dispatch(logoutUser());
     //
     console.log(currentTime, decoded_token.exp);
-    window.location.href = "/login";
+    // window.location.href = "/login";
   }
 }
 

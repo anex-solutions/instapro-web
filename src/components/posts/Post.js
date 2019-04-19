@@ -14,17 +14,28 @@ export class Post extends Component {
     if (post.comments === null || post.comments === undefined) {
       comments = "";
     } else {
+      console.log(post.comments);
       post.comments.length > 1
-        ? (comments = (
-            <li>
-              {post.comments.user}: {post.comments[0].text}
-            </li>
-          ))
-        : (comments = comments = post.comments.map(comment => (
+        ? (comments = comments = post.comments.map(comment => (
             <li key={comment._id} className="list-group-item">
-              {comment.user}: {comment.text}
+              {comment.avatar ? (
+                <img src={comment.avatar} alt={comments.name} />
+              ) : (
+                <i className="fas fa-user-circle" />
+              )}
+              {comment.name}: {comment.text}
             </li>
-          )));
+          )))
+        : (comments = (
+            <li>
+              {post.comments.avatar ? (
+                <img src={post.comments.avatar} alt={post.comments.name} />
+              ) : (
+                <i className="fas fa-user-circle" />
+              )}
+              {post.comments.name}: {post.comments[0].text}
+            </li>
+          ));
     }
     if (post.likes !== null && post.likes !== undefined) {
       post.likes.length > 1 ? (likes = <div>Likes: 0</div>) : (likes = "");
@@ -32,11 +43,19 @@ export class Post extends Component {
     return (
       <div className="post card card-body mt-5">
         <div className="row">
-          <div>User: {post.user}</div>
-          <div className="float-right">Actions</div>
+          <div className="col-md-1">
+            {post.avatar ? (
+              <img src={post.avatar} alt={post.name} />
+            ) : (
+              <i className="fas fa-user-circle" />
+            )}
+          </div>
+          <div className="col-md-9 text-left">{post.user}</div>
+          <div className="col-md-2 text-right">...</div>
         </div>
-        <img src={post.image} alt={post.image} />
-        {/* <div className="row">Image: {`http://localhost/${post.image}`}</div> */}
+        <div className="row m-auto">
+          <img src={post.image} alt={post.image} />
+        </div>
         <div className="row">
           {" "}
           <i className="far fa-heart fa-lg" />

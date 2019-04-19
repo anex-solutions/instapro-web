@@ -53,7 +53,6 @@ class Login extends Component {
   }
 
   onSubmit(e) {
-    console.log("signing up");
     e.preventDefault();
 
     const newUser = {

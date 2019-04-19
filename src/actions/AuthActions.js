@@ -5,8 +5,6 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "../utils/setAuthToken";
 
 export const registerUser = (userData, history) => dispatch => {
-  console.log("registering");
-
   Axios.post("/api/users/register", userData)
     .then(res => {
       loginUser(userData, history);

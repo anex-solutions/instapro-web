@@ -57,7 +57,6 @@ class Registration extends Component {
   }
 
   onSubmit(e) {
-    console.log("signing up");
     e.preventDefault();
 
     const newUser = {
@@ -68,7 +67,6 @@ class Registration extends Component {
       password_confirm: this.state.password_confirm
     };
 
-    console.log(`signing up user with ${newUser}`);
     //create actions and reducers, bring in redux
     this.props.registerUser(newUser, this.props.history);
   }

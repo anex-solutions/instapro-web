@@ -10,7 +10,6 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/storage";
 firebase.initializeApp(config);
-console.log(firebase);
 
 const storage = firebase.storage().ref();
 
@@ -22,7 +21,6 @@ export class PostForm extends Component {
       text: "",
       //change to allow multiple files
       file: null,
-
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
@@ -36,35 +34,39 @@ export class PostForm extends Component {
     e.preventDefault();
     const { user } = this.props.auth;
     const { errors } = this.props.errors;
-
-    const upload = storage
-      .child(`images/${user.id}/${this.state.file.name}`)
-      .put(this.state.file);
-    //consider cancel button?
-    //monitor upload progress,cancel to resume when connection is established
-    upload.on(
-      firebase.storage.TaskEvent.STATE_CHANGED,
-      snapshot => {
-        let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Uploaded: ${progress}%`);
-        //switch statement here for state
-      },
-      err => {
-        console.log(err);
-        this.setState({ ["errors.upload"]: err });
-      },
-      () => {
-        upload.snapshot.ref.getDownloadURL().then(downloadURL => {
-          const newPost = {
-            user: user.id,
-            text: this.state.text,
-            image: downloadURL
-          };
-          this.props.addPost(newPost);
-          this.setState({ text: "", image: "", file: null });
-        });
-      }
-    );
+    if (this.state.file) {
+      const upload = storage
+        .child(`images/${user.id}/${this.state.file.name}`)
+        .put(this.state.file);
+      //consider cancel button?
+      //monitor upload progress,cancel to resume when connection is established
+      upload.on(
+        firebase.storage.TaskEvent.STATE_CHANGED,
+        snapshot => {
+          let progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Uploaded: ${progress}%`);
+          //switch statement here for state
+        },
+        err => {
+          console.log(err);
+        },
+        () => {
+          upload.snapshot.ref.getDownloadURL().then(downloadURL => {
+            const newPost = {
+              user,
+              text: this.state.text,
+              image: downloadURL
+            };
+            this.props.addPost(newPost);
+            this.setState({ text: "", image: "", file: null });
+          });
+        }
+      );
+    } else {
+      console.log("no image");
+      // this.state.errors.image = "Please upload an image";
+    }
   }
 
   handleFileSelect = e => {
@@ -100,6 +102,7 @@ export class PostForm extends Component {
             value="Share"
             className="btn btn-info btn-block mt-4"
           />
+          {/* <div className="is-invalid">{errors.image}</div> */}
         </form>
       </div>
     );
