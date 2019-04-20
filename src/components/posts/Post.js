@@ -10,6 +10,7 @@ import { likePost, addComment } from "../../actions/PostActions";
 
 import Tooltip from "../common/Tooltip";
 import TextFieldGroup from "../common/TextFieldGroup";
+import Comments from "./Comments";
 
 export class Post extends Component {
   constructor() {
@@ -49,22 +50,12 @@ export class Post extends Component {
   }
 
   handleLike(id, e) {
-    console.log("hadlelike");
-    console.log(id);
-    console.log(e);
     this.props.likePost(id);
   }
 
   handleCheckLike(likes, e) {
-    console.log("handlechecklikes");
-    console.log(likes);
     const { auth } = this.props;
     if (likes.filter(like => like.user === auth.user.id).length > 0) {
-      for (let i in likes) {
-        console.log(likes[i]);
-      }
-      console.log(auth.user.id);
-      console.log("matching");
       return true;
     } else {
       return false;
@@ -83,46 +74,9 @@ export class Post extends Component {
     const { errors } = this.props;
 
     //add auth here to check if the user is blocked? idk
-    let comments;
+
     let likes;
     let likesList;
-
-    //display first comment in array, then display in descending order, first comment needs to be caption, ther's no heart for it
-    if (post.comments === null || post.comments === undefined) {
-      comments = "";
-    } else {
-      post.comments.length > 1
-        ? (comments = comments = post.comments.slice(0).map(comment => (
-            <li key={comment._id} className="list-group-item text-left pl-3">
-              <img
-                onError={this.addDefaultSrc}
-                src={comment.avatar}
-                className="img-responsive"
-                alt={<i className="fas fa-user-circle" />}
-                height="25"
-              />
-              <span className="mr-auto">
-                {comment.name} {comment.text}
-              </span>
-              <i className="far fa-heart text-right ml-auto float-right" />
-            </li>
-          )))
-        : (comments = (
-            <li className="list-group-item text-left pl-3">
-              <img
-                onError={this.addDefaultSrc}
-                src={post.comments.avatar}
-                className="img-responsive"
-                alt={post.comments.name}
-                height="25"
-              />
-              <span className="mr-auto">
-                <strong>{post.comments[0].name}</strong> {post.comments[0].text}
-              </span>
-              <i className="far fa-heart text-right ml-auto float-right" />
-            </li>
-          ));
-    }
 
     if (post.likes !== null && post.likes !== undefined) {
       if (post.likes.length > 0) {
@@ -206,7 +160,7 @@ export class Post extends Component {
           </Tooltip>
         ) : null}
         <div className="row">
-          <ul className="list-group list-group-flush w-100">{comments}</ul>
+          <Comments comments={post.comments} />
         </div>{" "}
         <small className="text-left mb-2">{checkDate(post.date)}</small>
         <div className="row border-top py-3">
