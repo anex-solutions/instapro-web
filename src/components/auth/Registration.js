@@ -64,8 +64,7 @@ class Registration extends Component {
       email: this.state.email,
       username: this.state.username,
       password: this.state.password,
-      password_confirm: this.state.password_confirm,
-      image: null
+      password_confirm: this.state.password_confirm
     };
 
     //create actions and reducers, bring in redux

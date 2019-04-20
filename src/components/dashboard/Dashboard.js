@@ -5,17 +5,14 @@ import { Link } from "react-router-dom";
 
 // import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
-// import PrivateRoute from "../common/PrivateRoute";
+import PrivateRoute from "../common/PrivateRoute";
 
 import Posts from "../posts/Posts";
 import PostForm from "../posts/PostForm";
 
 import Navbar from "../layout/Navbar";
-//dashboard
 //edit profile
 //profiles
-//profile
-//posts
 //post
 //notfound
 
@@ -38,7 +35,7 @@ export class Dashboard extends Component {
             <div className="col-md-4">
               <div className="row mt-5">
                 <div className="col-md-2">
-                  <Link to={`/${user.username}`}>
+                  <Link to={`/profile${user.username}`}>
                     <img
                       onError={this.addDefaultSrc}
                       src={user.avatar}
@@ -48,7 +45,7 @@ export class Dashboard extends Component {
                   </Link>
                 </div>
                 <div className="col-md-10 text-left">
-                  <Link to={`/${user.username}`}>
+                  <Link to={`/profile/${user.username}`}>
                     <strong>{user.username}</strong>
                   </Link>
                   <p>{user.name}</p>
