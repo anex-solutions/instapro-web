@@ -74,12 +74,14 @@ export class Post extends Component {
     }
 
     if (post.likes !== null && post.likes !== undefined) {
-      likes = <span>{post.likes.length} likes</span>;
-      likesList = post.likes.map(like => (
-        <li key={like._id} className="list-group-item">
-          <Link to={`/${like.user}`}>{like.name}</Link>
-        </li>
-      ));
+      if (post.likes.length > 0) {
+        likes = <span>{post.likes.length} likes</span>;
+        likesList = post.likes.map(like => (
+          <li key={like._id} className="list-group-item">
+            <Link to={`/${like.user}`}>{like.name}</Link>
+          </li>
+        ));
+      }
     }
 
     return (
@@ -117,7 +119,7 @@ export class Post extends Component {
             })}
           />
           <i className="far fa-comment fa-lg ml-3" />
-          <i className="far fa-paper-plane fa-lgml-3" />
+          <i className="far fa-paper-plane fa-lg ml-3" />
           <i
             className={classnames("far fa-bookmark fa-lg ml-auto", {
               fas: this.handleCheckBookmark()

@@ -29,8 +29,8 @@ export class Navbar extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <nav className="navbar navbar-bottom navbar-expand-sm navbar-light bg-white">
-        <div className="container">
+      <nav className="navbar navbar-bottom navbar-expand-sm navbar-light bg-white border-bottom">
+        <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             <i className="fas fa-camera-retro fa-lg" /> | InstaPro
           </Link>
