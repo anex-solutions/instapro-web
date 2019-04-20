@@ -28,7 +28,10 @@ export class Tooltip extends Component {
     const position = this.props.position;
 
     return (
-      <span className="tooltip" onMouseLeave={this.hideTooltip}>
+      <span
+        className="tooltip font-weight-bold"
+        onMouseLeave={this.hideTooltip}
+      >
         {this.state.displayTooltip && (
           <div className={`tooltip-bubble tooltip-${position}`}>
             <div className="tooltip-message">{message}</div>

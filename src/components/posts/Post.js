@@ -96,7 +96,7 @@ export class Post extends Component {
             />
           </div>
 
-          <div className="col-md-9 text-left">{post.name}</div>
+          <div className="col-md-9 text-left font-weight-bold">{post.name}</div>
           <div className="col-md-2 text-right">
             <i className="fas fa-ellipsis-h" />
           </div>
@@ -133,8 +133,9 @@ export class Post extends Component {
         <Tooltip
           message={<ul className="list-group list-group-flush">{likesList}</ul>}
           position={"top"}
+          className="text-left font-weight-bold"
         >
-          <strong className="text-left">{likes}</strong>
+          {likes}
         </Tooltip>
         <div>{checkDate(post.date)}</div>
       </div>
