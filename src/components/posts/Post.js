@@ -60,6 +60,11 @@ export class Post extends Component {
     console.log(likes);
     const { auth } = this.props;
     if (likes.filter(like => like.user === auth.user.id).length > 0) {
+      for (let i in likes) {
+        console.log(likes[i]);
+      }
+      console.log(auth.user.id);
+      console.log("matching");
       return true;
     } else {
       return false;
@@ -160,9 +165,11 @@ export class Post extends Component {
         <div className="row py-3">
           <i
             onClick={this.handleLike.bind(this, post._id)}
-            className={classnames("far fa-heart fa-lg ml-3", {
-              "fas text-danger": this.handleCheckLike.bind(this, post.likes)
-            })}
+            className={
+              this.handleCheckLike(post.likes)
+                ? "fas fa-heart fa-lg ml-3 text-danger"
+                : "far fa-heart fa-lg ml-3"
+            }
           />
           <i className="far fa-comment fa-lg ml-3" />
           <i className="far fa-paper-plane fa-lg ml-3" />
@@ -202,14 +209,6 @@ export class Post extends Component {
           <ul className="list-group list-group-flush w-100">{comments}</ul>
         </div>{" "}
         <small className="text-left mb-2">{checkDate(post.date)}</small>
-        {/* <TextFieldGroup
-          placeholder="Add a comment..."
-          name="text"
-          type="text"
-          value={this.state.text}
-          onChange={this.onChange.bind(this, post._id)}
-          error={errors.text}
-        /> */}
         <div className="row border-top py-3">
           <input
             placeholder="Add a comment..."
