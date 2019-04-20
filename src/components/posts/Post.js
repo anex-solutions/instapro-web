@@ -26,6 +26,14 @@ export class Post extends Component {
       return false;
     }
   }
+  handleCheckBookmark(bookmarks) {
+    const { auth } = this.props;
+    // if (bookmarks.filter(like => like.user === auth.user.id).length > 0) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+  }
 
   render() {
     const { post } = this.props;
@@ -57,13 +65,13 @@ export class Post extends Component {
                 className="img-responsive"
                 alt={post.comments.name}
               />
-              {post.comments.name}: {post.comments[0].text}
+              <strong>{post.comments[0].name}</strong> {post.comments[0].text}
             </li>
           ));
     }
 
     if (post.likes !== null && post.likes !== undefined) {
-      post.likes.length > 1 ? (likes = <div>Likes: 0</div>) : (likes = "");
+      likes = <span>{post.likes.length} likes</span>;
     }
 
     return (
@@ -102,8 +110,13 @@ export class Post extends Component {
           />
           <i className="far fa-comment fa-2x ml-3" />
           <i className="far fa-paper-plane fa-2x ml-3" />
+          <i
+            className={classnames("far fa-bookmark fa-2x ml-auto", {
+              fas: this.handleCheckBookmark()
+            })}
+          />
         </div>
-        <div>{likes}</div>
+        <strong className="text-left">{likes}</strong>
         <div className="row">
           <ul className="list-group list-group-flush">{comments}</ul>
         </div>
