@@ -22,7 +22,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #333;
 }
 
 @keyframes App-logo-spin {
@@ -38,4 +38,13 @@
   object-fit: cover;
   height: 670px;
   width: 660px;
+}
+
+a {
+  color: #333;
+}
+
+a:hover {
+  text-decoration: none;
+  color: initial;
 }

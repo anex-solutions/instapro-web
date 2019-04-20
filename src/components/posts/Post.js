@@ -112,14 +112,14 @@ export class Post extends Component {
           {" "}
           <i
             onClick={this.handleLike.bind(this, post._id)}
-            className={classnames("far fa-heart fa-2x ml-3", {
+            className={classnames("far fa-heart fa-lg ml-3", {
               "fas text-danger": this.handleCheckLike(post.likes)
             })}
           />
-          <i className="far fa-comment fa-2x ml-3" />
-          <i className="far fa-paper-plane fa-2x ml-3" />
+          <i className="far fa-comment fa-lg ml-3" />
+          <i className="far fa-paper-plane fa-lgml-3" />
           <i
-            className={classnames("far fa-bookmark fa-2x ml-auto", {
+            className={classnames("far fa-bookmark fa-lg ml-auto", {
               fas: this.handleCheckBookmark()
             })}
           />

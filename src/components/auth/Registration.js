@@ -64,7 +64,8 @@ class Registration extends Component {
       email: this.state.email,
       username: this.state.username,
       password: this.state.password,
-      password_confirm: this.state.password_confirm
+      password_confirm: this.state.password_confirm,
+      image: null
     };
 
     //create actions and reducers, bring in redux
@@ -132,7 +133,7 @@ class Registration extends Component {
                   <TextFieldGroup
                     placeholder="Confirm Password"
                     name="password_confirm"
-                    type="text"
+                    type="password"
                     value={this.state.password_confirm}
                     onChange={this.onChange}
                     error={errors.password_confirm}
