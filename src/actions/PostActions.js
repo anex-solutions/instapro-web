@@ -28,3 +28,9 @@ export const addPost = newPost => dispatch => {
     .then(res => dispatch({ type: ADD_POST, payload: res.data }))
     .catch(err => dispatch({ type: GET_ERRORS, payload: {} }));
 };
+
+export const likePost = id => dispatch => {
+  Axios.post(`/api/posts/like/${id}`)
+    .then(res => dispatch(getPosts()))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+};

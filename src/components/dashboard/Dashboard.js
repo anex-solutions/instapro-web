@@ -30,7 +30,6 @@ export class Dashboard extends Component {
             </div>
             <div className="col-md-4">
               <PostForm />
-
               <p>Me</p>
               <p>Stories</p>
               <p>Suggestions</p>

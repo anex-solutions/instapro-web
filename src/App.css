@@ -33,3 +33,9 @@
     transform: rotate(360deg);
   }
 }
+
+.postimg {
+  object-fit: cover;
+  height: 670px;
+  width: 660px;
+}

@@ -77,7 +77,7 @@ export class PostForm extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="post-form mb-3">
+      <div className="post-form mt-5 mb-3">
         <form noValidate onSubmit={this.onSubmit}>
           <input
             style={{ display: "none" }}
