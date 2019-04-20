@@ -29,7 +29,7 @@ export default function(state = initialState, action) {
         posts: [action.payload, ...state.posts],
         loading: false
       };
-      
+
     default:
       return state;
   }

@@ -6,14 +6,44 @@ import { Link } from "react-router-dom";
 
 import checkDate from "../../utils/checkDate";
 //like post, flat post, add comment, actions(report innappropritate, unfoolow, go to post, cancel)
-import { likePost } from "../../actions/PostActions";
+import { likePost, addComment } from "../../actions/PostActions";
 
 import Tooltip from "../common/Tooltip";
+import TextFieldGroup from "../common/TextFieldGroup";
 
 export class Post extends Component {
+  constructor() {
+    super();
+    this.state = {
+      text: "",
+      postID: "",
+      errors: {}
+    };
+    this.addDefaultSrc = this.addDefaultSrc.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
   addDefaultSrc(ev) {
     ev.target.src =
       "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/256x256/plain/user.png";
+  }
+
+  onChange(id, e) {
+    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ postID: id });
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+
+    const { user } = this.props.auth;
+    const { errors } = this.props.errors;
+
+    const newComment = {
+      text: this.state.text
+    };
+    this.props.addComment(this.state.postID, newComment);
   }
 
   handleLike(id) {
@@ -39,6 +69,8 @@ export class Post extends Component {
 
   render() {
     const { post } = this.props;
+    const { errors } = this.props;
+
     //add auth here to check if the user is blocked? idk
     let comments;
     let likes;
@@ -49,26 +81,34 @@ export class Post extends Component {
       comments = "";
     } else {
       post.comments.length > 1
-        ? (comments = comments = post.comments.map(comment => (
-            <li key={comment._id} className="list-group-item">
+        ? (comments = comments = post.comments.slice(0).map(comment => (
+            <li key={comment._id} className="list-group-item text-left pl-3">
               <img
                 onError={this.addDefaultSrc}
                 src={comment.avatar}
                 className="img-responsive"
                 alt={<i className="fas fa-user-circle" />}
+                height="25"
               />
-              {comment.name}: {comment.text}
+              <span className="mr-auto">
+                {comment.name}: {comment.text}
+              </span>
+              <i className="far fa-heart text-right ml-auto float-right" />
             </li>
           )))
         : (comments = (
-            <li className="list-group-item">
+            <li className="list-group-item text-left pl-3">
               <img
                 onError={this.addDefaultSrc}
                 src={post.comments.avatar}
                 className="img-responsive"
                 alt={post.comments.name}
+                height="25"
               />
-              <strong>{post.comments[0].name}</strong> {post.comments[0].text}
+              <span className="mr-auto">
+                <strong>{post.comments[0].name}</strong> {post.comments[0].text}
+              </span>
+              <i className="far fa-heart text-right ml-auto float-right" />
             </li>
           ));
     }
@@ -77,7 +117,7 @@ export class Post extends Component {
       if (post.likes.length > 0) {
         likes = <span>{post.likes.length} likes</span>;
         likesList = post.likes.map(like => (
-          <li key={like._id} className="list-group-item">
+          <li key={like._id} className="list-group-item list-group-item-action">
             <Link to={`/${like.user}`}>{like.name}</Link>
           </li>
         ));
@@ -85,7 +125,7 @@ export class Post extends Component {
     }
 
     return (
-      <div className="post card card-body mt-5">
+      <div className="post card mt-5 card-body">
         <div className="row border-bottom py-2">
           <div className="col-md-1">
             <img //post avatar
@@ -111,7 +151,6 @@ export class Post extends Component {
           />
         </div>
         <div className="row py-3">
-          {" "}
           <i
             onClick={this.handleLike.bind(this, post._id)}
             className={classnames("far fa-heart fa-lg ml-3", {
@@ -126,18 +165,60 @@ export class Post extends Component {
             })}
           />
         </div>
-
         <div className="row">
-          <ul className="list-group list-group-flush">{comments}</ul>
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item text-left pl-3">
+              <img
+                onError={this.addDefaultSrc}
+                src={post.comments.avatar}
+                className="img-responsive"
+                alt={post.comments.name}
+                height="25"
+              />
+              <strong>{post.comments[post.comments.length - 1].name}</strong>{" "}
+              {post.comments[post.comments.length - 1].text}
+            </li>
+          </ul>
         </div>
-        <Tooltip
-          message={<ul className="list-group list-group-flush">{likesList}</ul>}
-          position={"top"}
-          className="text-left font-weight-bold"
-        >
-          {likes}
-        </Tooltip>
-        <div>{checkDate(post.date)}</div>
+        {likes ? (
+          <Tooltip
+            message={
+              <ul className="list-group list-group-flush">{likesList}</ul>
+            }
+            position={"top"}
+            className="text-left font-weight-bold"
+          >
+            {likes}
+          </Tooltip>
+        ) : null}
+        <div className="row">
+          <ul className="list-group list-group-flush w-100">{comments}</ul>
+        </div>{" "}
+        <small className="text-left mb-2">{checkDate(post.date)}</small>
+        {/* <TextFieldGroup
+          placeholder="Add a comment..."
+          name="text"
+          type="text"
+          value={this.state.text}
+          onChange={this.onChange.bind(this, post._id)}
+          error={errors.text}
+        /> */}
+        <div className="row border-top py-3">
+          <input
+            placeholder="Add a comment..."
+            name="text"
+            type="text"
+            value={this.state.text}
+            onChange={this.onChange.bind(this, post._id)}
+            className="col-md-10 border-0"
+          />
+          <input
+            // type="submit"
+            onClick={this.onSubmit}
+            value="Post"
+            className="btn btn-default text-info col-md-2 font-weight-bold"
+          />
+        </div>
       </div>
     );
   }
@@ -146,14 +227,16 @@ export class Post extends Component {
 Post.propTypes = {
   auth: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
-  likePost: PropTypes.func.isRequired
+  likePost: PropTypes.func.isRequired,
+  addComment: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
-const mapDispatchToProps = { likePost };
+const mapDispatchToProps = { likePost, addComment };
 
 export default connect(
   mapStateToProps,
