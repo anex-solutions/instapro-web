@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import classnames from "classnames";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+
 import checkDate from "../../utils/checkDate";
 //like post, flat post, add comment, actions(report innappropritate, unfoolow, go to post, cancel)
-
-import classnames from "classnames";
-
 import { likePost } from "../../actions/PostActions";
+
+import Tooltip from "../common/Tooltip";
 
 export class Post extends Component {
   addDefaultSrc(ev) {
@@ -40,6 +42,7 @@ export class Post extends Component {
     //add auth here to check if the user is blocked? idk
     let comments;
     let likes;
+    let likesList;
 
     //display first comment in array, then display in descending order, first comment needs to be caption, ther's no heart for it
     if (post.comments === null || post.comments === undefined) {
@@ -72,6 +75,11 @@ export class Post extends Component {
 
     if (post.likes !== null && post.likes !== undefined) {
       likes = <span>{post.likes.length} likes</span>;
+      likesList = post.likes.map(like => (
+        <li key={like._id} className="list-group-item">
+          <Link to={`/${like.user}`}>{like.name}</Link>
+        </li>
+      ));
     }
 
     return (
@@ -116,10 +124,16 @@ export class Post extends Component {
             })}
           />
         </div>
-        <strong className="text-left">{likes}</strong>
+
         <div className="row">
           <ul className="list-group list-group-flush">{comments}</ul>
         </div>
+        <Tooltip
+          message={<ul className="list-group list-group-flush">{likesList}</ul>}
+          position={"top"}
+        >
+          <strong className="text-left">{likes}</strong>
+        </Tooltip>
         <div>{checkDate(post.date)}</div>
       </div>
     );
