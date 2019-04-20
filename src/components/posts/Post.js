@@ -22,6 +22,8 @@ export class Post extends Component {
     this.addDefaultSrc = this.addDefaultSrc.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleLike = this.handleLike.bind(this);
+    this.handleCheckLike = this.handleCheckLike.bind(this);
   }
 
   addDefaultSrc(ev) {
@@ -46,11 +48,16 @@ export class Post extends Component {
     this.props.addComment(this.state.postID, newComment);
   }
 
-  handleLike(id) {
+  handleLike(id, e) {
+    console.log("hadlelike");
+    console.log(id);
+    console.log(e);
     this.props.likePost(id);
   }
 
-  handleCheckLike(likes) {
+  handleCheckLike(likes, e) {
+    console.log("handlechecklikes");
+    console.log(likes);
     const { auth } = this.props;
     if (likes.filter(like => like.user === auth.user.id).length > 0) {
       return true;
@@ -66,7 +73,6 @@ export class Post extends Component {
     //   return false;
     // }
   }
-
   render() {
     const { post } = this.props;
     const { errors } = this.props;
@@ -132,7 +138,8 @@ export class Post extends Component {
               src={post.avatar}
               onError={this.addDefaultSrc}
               alt={<i className="fas fa-user-circle" />}
-              className="img-fluid"
+              className="img-responsive"
+              height="25"
             />
           </div>
 
@@ -154,7 +161,7 @@ export class Post extends Component {
           <i
             onClick={this.handleLike.bind(this, post._id)}
             className={classnames("far fa-heart fa-lg ml-3", {
-              "fas text-danger": this.handleCheckLike(post.likes)
+              "fas text-danger": this.handleCheckLike.bind(this, post.likes)
             })}
           />
           <i className="far fa-comment fa-lg ml-3" />
@@ -208,16 +215,17 @@ export class Post extends Component {
             placeholder="Add a comment..."
             name="text"
             type="text"
-            value={this.state.text}
             onChange={this.onChange.bind(this, post._id)}
+            value={this.state.text}
             className="col-md-10 border-0"
           />
-          <input
-            // type="submit"
+          <button
+            type="button"
             onClick={this.onSubmit}
-            value="Post"
             className="btn btn-default text-info col-md-2 font-weight-bold"
-          />
+          >
+            Post
+          </button>
         </div>
       </div>
     );

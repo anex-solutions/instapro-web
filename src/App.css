@@ -35,9 +35,9 @@
 }
 
 .postimg {
-  object-fit: cover;
-  height: 670px;
-  width: 660px;
+  object-fit: scale-down;
+  max-height: 670px;
+  max-width: 100%;
 }
 
 a {
