@@ -102,7 +102,7 @@ export class Post extends Component {
                 height="25"
               />
               <span className="mr-auto">
-                {comment.name}: {comment.text}
+                {comment.name} {comment.text}
               </span>
               <i className="far fa-heart text-right ml-auto float-right" />
             </li>
