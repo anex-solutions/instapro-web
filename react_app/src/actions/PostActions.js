@@ -41,3 +41,9 @@ export const addComment = (id, newComment) => dispatch => {
     .then(res => dispatch(getPosts()))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
+
+export const likeComment = (commentID, id) => dispatch => {
+  Axios.post(`/api/posts/like/${id}/${commentID}`)
+    .then(res => dispatch(getPosts()))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+};

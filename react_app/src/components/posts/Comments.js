@@ -1,9 +1,37 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import classnames from "classnames";
+import { connect } from "react-redux";
+
+import checkDate from "../../utils/checkDate";
+import { likeComment } from "../../actions/PostActions";
 
 class Comments extends Component {
+  constructor() {
+    super();
+    this.state = {
+      commentID: "",
+      errors: {}
+    };
+    this.handleLike = this.handleLike.bind(this);
+    this.handleCheckLike = this.handleCheckLike.bind(this);
+  }
+
+  handleLike(postID, commentID, e) {
+    this.props.likeComment(postID, commentID);
+  }
+
+  handleCheckLike(likes, e) {
+    const { auth } = this.props;
+    if (likes.filter(like => like.user === auth.user.id).length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
-    let { comments } = this.props;
+    let { comments, auth, postID } = this.props;
 
     if (comments === null || comments === undefined) {
       comments = "";
@@ -21,7 +49,14 @@ class Comments extends Component {
               <span className="mr-auto">
                 <strong>{comment.name}</strong> {comment.text}
               </span>
-              <i className="far fa-heart text-right ml-auto float-right" />
+              <i
+                className={
+                  this.handleCheckLike(comment.likes)
+                    ? "fas fa-heart text-right ml-auto float-right text-danger"
+                    : "far fa-heart text-right ml-auto float-right"
+                }
+                onClick={this.handleLike.bind(this, comment._id, postID)}
+              />
             </li>
           )))
         : (comments = null);
@@ -30,7 +65,20 @@ class Comments extends Component {
   }
 }
 Comments.propTypes = {
-  comments: PropTypes.array.isRequired
+  comments: PropTypes.array.isRequired,
+  postID: PropTypes.number.isRequired,
+  auth: PropTypes.object.isRequired,
+  likeComment: PropTypes.func.isRequired
 };
 
-export default Comments;
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+const mapDispatchToProps = { likeComment };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Comments);

@@ -61,6 +61,7 @@ export class Post extends Component {
       return false;
     }
   }
+
   handleCheckBookmark(bookmarks) {
     const { auth } = this.props;
     // if (bookmarks.filter(like => like.user === auth.user.id).length > 0) {
@@ -160,7 +161,7 @@ export class Post extends Component {
           </Tooltip>
         ) : null}
         <div className="row">
-          <Comments comments={post.comments} />
+          <Comments comments={post.comments} postID={post._id} />
         </div>{" "}
         <small className="text-left mb-2">{checkDate(post.date)}</small>
         <div className="row border-top py-3">

@@ -38,6 +38,7 @@ class Registration extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }
