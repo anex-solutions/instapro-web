@@ -84,7 +84,7 @@ export class Post extends Component {
         likes = <span>{post.likes.length} likes</span>;
         likesList = post.likes.map(like => (
           <li key={like._id} className="list-group-item list-group-item-action">
-            <Link to={`/${like.user}`}>{like.name}</Link>
+            <Link to={`/profile/${like.name}`}>{like.name}</Link>
           </li>
         ));
       }

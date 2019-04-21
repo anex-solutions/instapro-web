@@ -66,7 +66,7 @@ class Comments extends Component {
 }
 Comments.propTypes = {
   comments: PropTypes.array.isRequired,
-  postID: PropTypes.number.isRequired,
+  postID: PropTypes.string.isRequired,
   auth: PropTypes.object.isRequired,
   likeComment: PropTypes.func.isRequired
 };
