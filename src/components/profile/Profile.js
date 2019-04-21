@@ -50,7 +50,7 @@ export class Profile extends Component {
               height="150"
             />
           </div>
-          <div className="col-md-8">
+          <div className="col-md-8"> 
             <div className="row">
               {profile.username}{" "}
               <button type="button" className="btn btn-outline-secondary">
