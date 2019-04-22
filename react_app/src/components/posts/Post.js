@@ -9,7 +9,6 @@ import checkDate from "../../utils/checkDate";
 import { likePost, addComment } from "../../actions/PostActions";
 
 import Tooltip from "../common/Tooltip";
-import TextFieldGroup from "../common/TextFieldGroup";
 import Comments from "./Comments";
 
 export class Post extends Component {

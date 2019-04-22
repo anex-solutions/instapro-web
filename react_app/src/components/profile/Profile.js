@@ -4,22 +4,20 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 // import ProfilePosts from "./ProfilePosts";
-
+import { getPosts } from "../../actions/PostActions";
 import { getProfile } from "../../actions/ProfileActions";
 import { Navbar } from "../layout/Navbar";
+import Post from "../posts/Post";
 
 export class Profile extends Component {
   //if profile id == req.user / auth.upser id then show actions
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   componentDidMount() {
+    console.log(this.props);
     if (this.props.match.params.username) {
       this.props.getProfile(this.props.match.params.username);
     }
+    this.props.getPosts();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -32,16 +30,32 @@ export class Profile extends Component {
   }
 
   render() {
-    const { profile, loading } = this.props;
+    const { profile, loading, posts } = this.props;
     const { user } = this.props.auth;
 
     let content;
+    let postContent;
+    if (posts === null || posts === undefined || loading) {
+      postContent = <div>Loading</div>;
+    } else {
+      postContent = posts.posts.map(post => (
+        <img
+          className="img-responsive col-md-4 my-3"
+          style={{ objectFit: "contain" }}
+          height="250"
+          src={post.image}
+          alt={post._id}
+        />
+      ));
+    }
+
     if (profile === null || profile === undefined || loading) {
+      console.log("loading");
       content = <div>Loading</div>;
     } else {
       content = (
-        <div className="row mt-5">
-          <div className="col-md-4">
+        <div className="row mt-5 py-5">
+          <div className="col-md-4 mt-5">
             <img
               src={profile.avatar}
               alt={profile.name}
@@ -50,17 +64,34 @@ export class Profile extends Component {
               height="150"
             />
           </div>
-          <div className="col-md-8"> 
+          <div className="col-md-8">
             <div className="row">
-              {profile.username}{" "}
-              <button type="button" className="btn btn-outline-secondary">
+              <h3 className="font-weight-normal">{profile.username} </h3>
+              <button
+                type="button"
+                className="btn btn-outline-secondary btn-sm mx-3"
+              >
                 Edit Profile
               </button>
-              <i class="fas fa-cog fa-2x" />
+              <i className="fas fa-cog fa-2x" />
             </div>
-            <div className="row">posts, followers, following</div>
-            <strong>name</strong>
-            <div>bio</div>
+            <div className="row my-3">
+              <div>
+                <strong>243</strong> posts
+              </div>
+              <div className="mx-5">
+                <strong>578</strong> followers
+              </div>
+              <div>
+                <strong>1,139</strong> following
+              </div>
+            </div>
+            <div className="row">
+              <strong>Grafto Thomas</strong>
+            </div>
+            <div className="row text-left">
+              Alex. Software Developer. <br /> Sc: Graft0
+            </div>
           </div>
         </div>
       );
@@ -71,8 +102,26 @@ export class Profile extends Component {
         {/* <Navbar /> */}
         <div className="container">
           {content}
-          <div className="row">nav</div>
-          <div className="row">profileposts</div>
+          <hr />
+          <div className="row">
+            <button type="button" className="btn btn-default btn-sm mx-auto">
+              POSTS
+            </button>
+            <button type="button" className="btn btn-default btn-sm mx-auto">
+              IGTV
+            </button>
+            <button type="button" className="btn btn-default btn-sm mx-auto">
+              SAVED
+            </button>
+            <button type="button" className="btn btn-default btn-sm mx-auto">
+              <i className="fas fa-id-card-alt" />
+              TAGGED
+            </button>
+          </div>
+          <div className="row">
+            {/* <small>Only you can see what you've saved</small> */}
+            {postContent}
+          </div>
         </div>
       </div>
     );
@@ -80,18 +129,22 @@ export class Profile extends Component {
 }
 
 Profile.propTypes = {
+  auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   getProfile: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  getPosts: PropTypes.func.isRequired,
+  posts: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   profile: state.profiles.profile,
-  auth: state.auth
+  posts: state.posts
 });
 
 const mapDispatchToProps = {
-  getProfile
+  getProfile,
+  getPosts
 };
 
 export default connect(
