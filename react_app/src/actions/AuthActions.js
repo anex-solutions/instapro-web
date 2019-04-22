@@ -7,7 +7,20 @@ import setAuthToken from "../utils/setAuthToken";
 export const registerUser = (userData, history) => dispatch => {
   Axios.post("/api/users/register", userData)
     .then(res => {
-      loginUser(userData, history);
+      Axios.post("/api/users/login", userData)
+        .then(res => {
+          const { token } = res.data;
+          localStorage.setItem("token", token);
+          setAuthToken(token);
+          const decoded_token = jwt_decode(token);
+          dispatch(setCurrentUser(decoded_token));
+        })
+        .catch(err =>
+          dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+          })
+        );
     })
     .catch(err =>
       dispatch({
@@ -25,8 +38,7 @@ export const loginUser = (userData, history) => dispatch => {
       setAuthToken(token);
       const decoded_token = jwt_decode(token);
       dispatch(setCurrentUser(decoded_token));
-      // history.push("/feed");
-    }) //login auto?
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

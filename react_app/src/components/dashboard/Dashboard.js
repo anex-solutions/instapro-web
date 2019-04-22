@@ -35,7 +35,7 @@ export class Dashboard extends Component {
             <div className="col-md-4">
               <div className="row mt-5">
                 <div className="col-md-2">
-                  <Link to={`/profile${user.username}`}>
+                  <Link to={`/profile/${user.username}`}>
                     <img
                       onError={this.addDefaultSrc}
                       src={user.avatar}

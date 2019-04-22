@@ -61,6 +61,7 @@ export class Post extends Component {
       return false;
     }
   }
+
   handleCheckBookmark(bookmarks) {
     const { auth } = this.props;
     // if (bookmarks.filter(like => like.user === auth.user.id).length > 0) {
@@ -83,7 +84,7 @@ export class Post extends Component {
         likes = <span>{post.likes.length} likes</span>;
         likesList = post.likes.map(like => (
           <li key={like._id} className="list-group-item list-group-item-action">
-            <Link to={`/${like.user}`}>{like.name}</Link>
+            <Link to={`/profile/${like.name}`}>{like.name}</Link>
           </li>
         ));
       }
@@ -160,7 +161,7 @@ export class Post extends Component {
           </Tooltip>
         ) : null}
         <div className="row">
-          <Comments comments={post.comments} />
+          <Comments comments={post.comments} postID={post._id} />
         </div>{" "}
         <small className="text-left mb-2">{checkDate(post.date)}</small>
         <div className="row border-top py-3">
