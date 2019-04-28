@@ -22,6 +22,13 @@ export const getPosts = () => dispatch => {
     .catch(err => dispatch({ type: GET_POSTS, payload: {} }));
 };
 
+export const getPostsByUser = id => dispatch => {
+  dispatch(postLoading());
+  Axios.get(`/api/posts/${id}`)
+    .then(res => dispatch({ type: GET_POSTS, payload: res.data }))
+    .catch(err => dispatch({ type: GET_POSTS, payload: {} }));
+};
+
 export const addPost = newPost => dispatch => {
   dispatch(postLoading());
   Axios.post("/api/posts", newPost)

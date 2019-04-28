@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 // import ProfilePosts from "./ProfilePosts";
-import { getPosts } from "../../actions/PostActions";
+import { getPosts, getPostsByUser } from "../../actions/PostActions";
 import { getProfile } from "../../actions/ProfileActions";
 import { Navbar } from "../layout/Navbar";
 import Post from "../posts/Post";
@@ -12,12 +12,11 @@ import Post from "../posts/Post";
 export class Profile extends Component {
   //if profile id == req.user / auth.upser id then show actions
 
-  componentDidMount() {
+  async componentDidMount() {
     console.log(this.props);
     if (this.props.match.params.username) {
       this.props.getProfile(this.props.match.params.username);
     }
-    this.props.getPosts();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,7 +54,7 @@ export class Profile extends Component {
     } else {
       content = (
         <div className="row mt-5 py-5">
-          <div className="col-md-4 mt-5">
+          <div className="col-md-4">
             <img
               src={profile.avatar}
               alt={profile.name}
@@ -105,16 +104,19 @@ export class Profile extends Component {
           <hr />
           <div className="row">
             <button type="button" className="btn btn-default btn-sm mx-auto">
+              <i className="fas fa-th mr-1" />
               POSTS
             </button>
             <button type="button" className="btn btn-default btn-sm mx-auto">
+              <i className="fas fa-tv mr-1" />
               IGTV
             </button>
             <button type="button" className="btn btn-default btn-sm mx-auto">
+              <i className="far fa-bookmark mr-1" />
               SAVED
             </button>
             <button type="button" className="btn btn-default btn-sm mx-auto">
-              <i className="fas fa-id-card-alt" />
+              <i className="fas fa-id-card-alt mr-1" />
               TAGGED
             </button>
           </div>
@@ -132,7 +134,7 @@ Profile.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   getProfile: PropTypes.func.isRequired,
-  getPosts: PropTypes.func.isRequired,
+  getPostsByUser: PropTypes.func.isRequired,
   posts: PropTypes.object.isRequired
 };
 
@@ -144,7 +146,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getProfile,
-  getPosts
+  getPostsByUser
 };
 
 export default connect(
