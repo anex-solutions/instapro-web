@@ -24,6 +24,7 @@ import Footer from "./components/layout/Footer";
 import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/profile/Profile";
 import { Navbar } from "./components/layout/Navbar";
+import { Post } from "./components/post/Post";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -50,6 +51,9 @@ class App extends Component {
 
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            </Switch>
+            <Switch>
+              <PrivateRoute exact path="/post/:id" component={Post} post />
             </Switch>
             <Switch>
               <PrivateRoute

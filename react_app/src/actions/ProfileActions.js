@@ -21,7 +21,7 @@ export const getProfile = username => dispatch => {
     .then(res => {
       dispatch({ type: GET_PROFILE, payload: res.data });
       console.log(res.data.user);
-      Axios.get(`/api/posts/${res.data.user}`)
+      Axios.get(`/api/posts/${username}/${res.data.user}`)
         .then(res => dispatch({ type: GET_POSTS, payload: res.data }))
         .catch(err => dispatch({ type: GET_POSTS, payload: {} }));
     })

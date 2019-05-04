@@ -4,7 +4,7 @@ import {
   // TEST_DISPATCH,
   GET_ERRORS,
   GET_POSTS,
-  // GET_POST,
+  GET_POST,
   POST_LOADING,
   ADD_POST
 } from "./Types";
@@ -22,9 +22,18 @@ export const getPosts = () => dispatch => {
     .catch(err => dispatch({ type: GET_POSTS, payload: {} }));
 };
 
-export const getPostsByUser = id => dispatch => {
+export const getPost = id => dispatch => {
+  console.log("here");
+  console.log(id);
   dispatch(postLoading());
   Axios.get(`/api/posts/${id}`)
+    .then(res => dispatch({ type: GET_POST, payload: res.data }))
+    .catch(err => dispatch({ type: GET_POST, payload: {} }));
+};
+
+export const getPostsByUser = (username, id) => dispatch => {
+  dispatch(postLoading());
+  Axios.get(`/api/posts/${username}/${id}`)
     .then(res => dispatch({ type: GET_POSTS, payload: res.data }))
     .catch(err => dispatch({ type: GET_POSTS, payload: {} }));
 };

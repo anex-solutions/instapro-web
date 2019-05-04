@@ -24,6 +24,7 @@ export class Post extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleLike = this.handleLike.bind(this);
     this.handleCheckLike = this.handleCheckLike.bind(this);
+    this.viewComments = this.viewComments.bind(this);
   }
 
   addDefaultSrc(ev) {
@@ -59,6 +60,10 @@ export class Post extends Component {
     } else {
       return false;
     }
+  }
+
+  viewComments(comment) {
+    console.log(comment);
   }
 
   handleCheckBookmark(bookmarks) {
@@ -125,7 +130,10 @@ export class Post extends Component {
                 : "far fa-heart fa-lg ml-3"
             }
           />
-          <i className="far fa-comment fa-lg ml-3" />
+          <Link
+            className="far fa-comment fa-lg ml-3"
+            to={`/post/${post._id}`}
+          />
           <i className="far fa-paper-plane fa-lg ml-3" />
           <i
             className={classnames("far fa-bookmark fa-lg ml-auto", {
