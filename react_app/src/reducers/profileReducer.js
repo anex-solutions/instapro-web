@@ -1,9 +1,4 @@
-import {
-  TEST_DISPATCH,
-  PROFILE_LOADING,
-  PROFILE_NOT_FOUND,
-  GET_PROFILE
-} from "../actions/Types";
+import { TEST_DISPATCH, PROFILE_LOADING, GET_PROFILE } from "../actions/Types";
 
 //creates initial state
 const initialState = {

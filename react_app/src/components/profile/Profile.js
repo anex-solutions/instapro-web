@@ -1,26 +1,18 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-// import ProfilePosts from "./ProfilePosts";
-import { getPosts, getPostsByUser } from "../../actions/PostActions";
 import { getProfile } from "../../actions/ProfileActions";
 import { Navbar } from "../layout/Navbar";
-import Post from "../posts/Post";
 
 export class Profile extends Component {
   //if profile id == req.user / auth.upser id then show actions
 
   async componentDidMount() {
-    console.log(this.props);
     if (this.props.match.params.username) {
       this.props.getProfile(this.props.match.params.username);
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
   }
 
   addDefaultSrc(ev) {
@@ -31,7 +23,6 @@ export class Profile extends Component {
   render() {
     const { profile, loading, posts } = this.props;
     const { user } = this.props.auth;
-
     let content;
     let postContent;
     if (posts === null || posts === undefined || loading) {
@@ -39,6 +30,7 @@ export class Profile extends Component {
     } else {
       postContent = posts.posts.map(post => (
         <img
+          key={post._id}
           className="img-responsive col-md-4 my-3"
           style={{ objectFit: "contain" }}
           height="250"
@@ -98,7 +90,7 @@ export class Profile extends Component {
 
     return (
       <div>
-        {/* <Navbar /> */}
+        <Navbar user={user} />
         <div className="container">
           {content}
           <hr />
@@ -134,7 +126,6 @@ Profile.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   getProfile: PropTypes.func.isRequired,
-  getPostsByUser: PropTypes.func.isRequired,
   posts: PropTypes.object.isRequired
 };
 
@@ -145,8 +136,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getProfile,
-  getPostsByUser
+  getProfile
 };
 
 export default connect(

@@ -28,7 +28,7 @@ export class Navbar extends Component {
 
   render() {
     const { errors } = this.state;
-    const { user } = this.props.auth;
+    const { user } = this.props;
     return (
       <nav className="navbar navbar-bottom navbar-expand-sm navbar-light bg-white border-bottom">
         <div className="container-fluid">
@@ -74,9 +74,11 @@ export class Navbar extends Component {
                 </span>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={`/profile/${user.username}`}>
-                  <i className="far fa-user fa-lg" />
-                </Link>
+                {
+                  <Link className="nav-link" to={`/profile/${user.username}`}>
+                    <i className="far fa-user fa-lg" />
+                  </Link>
+                }
                 <a href="/" className="nav-link" onClick={this.onLogout}>
                   Logout
                 </a>
@@ -96,7 +98,9 @@ Navbar.propTypes = {
   auth: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({ errors: state.errors, auth: state.auth });
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
 const mapDispatchToProps = { logoutUser };
 

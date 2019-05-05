@@ -65,7 +65,7 @@ export class PostForm extends Component {
       );
     } else {
       console.log("no image");
-      // this.state.errors.image = "Please upload an image";
+      errors.image = "Please upload an image";
     }
   }
 

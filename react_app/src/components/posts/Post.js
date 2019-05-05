@@ -40,8 +40,8 @@ export class Post extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    const { user } = this.props.auth;
-    const { errors } = this.props.errors;
+    // const { user } = this.props.auth;
+    // const { errors } = this.props.errors;
 
     const newComment = {
       text: this.state.text
@@ -67,7 +67,7 @@ export class Post extends Component {
   }
 
   handleCheckBookmark(bookmarks) {
-    const { auth } = this.props;
+    // const { auth } = this.props;
     // if (bookmarks.filter(like => like.user === auth.user.id).length > 0) {
     //   return true;
     // } else {
@@ -76,7 +76,7 @@ export class Post extends Component {
   }
   render() {
     const { post } = this.props;
-    const { errors } = this.props;
+    // const { errors } = this.props;
 
     //add auth here to check if the user is blocked? idk
 

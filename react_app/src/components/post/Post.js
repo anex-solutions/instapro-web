@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import classnames from "classnames";
+// import classnames from "classnames";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-import checkDate from "../../utils/checkDate";
+// import checkDate from "../../utils/checkDate";
 //like post, flat post, add comment, actions(report innappropritate, unfoolow, go to post, cancel)
-import { likePost, addComment, getPost } from "../../actions/PostActions";
+import { getPost } from "../../actions/PostActions";
 
-import Tooltip from "../common/Tooltip";
-import Comments from "./Comments";
+// import Tooltip from "../common/Tooltip";
+// import Comments from "./Comments";
 
 export class Post extends Component {
   //   constructor() {
@@ -30,12 +30,9 @@ export class Post extends Component {
   //       "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/256x256/plain/user.png";
   //   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (this.props.match.params.id) {
-      console.log("here");
-      //   this.props.getPost(this.props.match.params.id);
-      console.log(this.props);
-      console.log("here");
+      this.props.getPost(this.props.match.params.id);
     }
   }
   //   onChange(id, e) {
@@ -81,12 +78,12 @@ export class Post extends Component {
   //   }
 
   render() {
-    const { post, errors } = this.props;
+    // const { post, errors } = this.props;
 
     //add auth here to check if the user is blocked? idk
 
-    let likes;
-    let likesList;
+    // let likes;
+    // let likesList;
 
     // if (post.likes !== null && post.likes !== undefined) {
     //   if (post.likes.length > 0) {
@@ -208,10 +205,11 @@ Post.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  post: state.posts.post,
   errors: state.errors
 });
 
-const mapDispatchToProps = { likePost, addComment, getPost };
+const mapDispatchToProps = { getPost };
 
 export default connect(
   mapStateToProps,

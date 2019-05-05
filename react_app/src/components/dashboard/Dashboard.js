@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 
 // import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
-import PrivateRoute from "../common/PrivateRoute";
-
 import Posts from "../posts/Posts";
 import PostForm from "../posts/PostForm";
 
@@ -26,7 +24,7 @@ export class Dashboard extends Component {
     const { user } = this.props.auth;
     return (
       <React.Fragment>
-        <Navbar />
+        <Navbar user={user} />
         <div className="container">
           <div className="row">
             <div className="col-md-8">
@@ -41,6 +39,7 @@ export class Dashboard extends Component {
                       src={user.avatar}
                       className="img-responsive rounded-circle"
                       height="50"
+                      alt={user.username}
                     />
                   </Link>
                 </div>
